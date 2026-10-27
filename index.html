@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Assignment Tracker</title>
+  <style>
+    /* ── Reset & Base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, "Segoe UI", system-ui, sans-serif;
+      background: #f0f2f5;
+      color: #1f2328;
+      min-height: 100vh;
+    }
+
+    /* ── Header ── */
+    header {
+      background: #1e3a5f;
+      color: #ffffff;
+      padding: 28px 24px;
+      text-align: center;
+    }
+    header h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+    header p {
+      margin-top: 6px;
+      font-size: 0.9rem;
+      opacity: 0.75;
+    }
+
+    /* ── Main Container ── */
+    main {
+      max-width: 760px;
+      margin: 32px auto;
+      padding: 0 16px;
+    }
+
+    /* ── Summary Cards ── */
+    .summary {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+    .card {
+      flex: 1;
+      border-radius: 10px;
+      padding: 20px 16px;
+      text-align: center;
+      color: #ffffff;
+    }
+    .card .card-label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      opacity: 0.88;
+    }
+    .card .card-value {
+      font-size: 2.4rem;
+      font-weight: 700;
+      margin-top: 8px;
+      line-height: 1;
+    }
+    .card-total      { background: #3b82d4; }
+    .card-submitted  { background: #16a34a; }
+    .card-notsubmit  { background: #dc2626; }
+
+    /* ── Checklist Section ── */
+    .section-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #1e3a5f;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #e5e7eb;
+    }
+
+    .checklist {
+      background: #ffffff;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid #e5e7eb;
+    }
+
+    .student-row {
+      display: flex;
+      align-items: center;
+      padding: 14px 20px;
+      gap: 16px;
+      border-bottom: 1px solid #f0f2f5;
+      transition: background 0.15s;
+    }
+    .student-row:last-child { border-bottom: none; }
+    .student-row:nth-child(even) { background: #f7f8fa; }
+    .student-row:hover { background: #eef2ff; }
+
+    /* Checkbox */
+    .student-row input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+      accent-color: #16a34a;
+      flex-shrink: 0;
+    }
+
+    /* Student number */
+    .student-num {
+      font-size: 0.8rem;
+      color: #57606a;
+      width: 20px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    /* Student name */
+    .student-name {
+      flex: 1;
+      font-size: 0.97rem;
+      font-weight: 500;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    /* Badge */
+    .badge {
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
+    .badge.submitted   { background: #dcfce7; color: #15803d; }
+    .badge.not-submitted { background: #fee2e2; color: #b91c1c; }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <h1>My Assignment Tracker</h1>
+    <p>My Assignment Tracker</p>
+  </header>
+
+  <main>
+
+    <!-- Summary Cards -->
+    <div class="summary">
+      <div class="card card-total">
+        <div class="card-label">Total Students</div>
+        <div class="card-value" id="total">5</div>
+      </div>
+      <div class="card card-submitted">
+        <div class="card-label">Submitted</div>
+        <div class="card-value" id="submitted">0</div>
+      </div>
+      <div class="card card-notsubmit">
+        <div class="card-label">Not Submitted</div>
+        <div class="card-value" id="notSubmitted">5</div>
+      </div>
+    </div>
+
+    <!-- Checklist -->
+    <div class="section-title">Student Submission Checklist</div>
+    <div class="checklist" id="checklist">
+
+      <div class="student-row">
+        <span class="student-num">1</span>
+        <input type="checkbox" id="s1" onchange="updateTracker(this)" />
+        <label class="student-name" for="s1">Ahmad Faris</label>
+        <span class="badge not-submitted" id="badge-s1">❌ Not Submitted</span>
+      </div>
+
+      <div class="student-row">
+        <span class="student-num">2</span>
+        <input type="checkbox" id="s2" onchange="updateTracker(this)" />
+        <label class="student-name" for="s2">Nur Aisyah</label>
+        <span class="badge not-submitted" id="badge-s2">❌ Not Submitted</span>
+      </div>
+
+      <div class="student-row">
+        <span class="student-num">3</span>
+        <input type="checkbox" id="s3" onchange="updateTracker(this)" />
+        <label class="student-name" for="s3">Haziq Danial</label>
+        <span class="badge not-submitted" id="badge-s3">❌ Not Submitted</span>
+      </div>
+
+      <div class="student-row">
+        <span class="student-num">4</span>
+        <input type="checkbox" id="s4" onchange="updateTracker(this)" />
+        <label class="student-name" for="s4">Siti Rahmah</label>
+        <span class="badge not-submitted" id="badge-s4">❌ Not Submitted</span>
+      </div>
+
+      <div class="student-row">
+        <span class="student-num">5</span>
+        <input type="checkbox" id="s5" onchange="updateTracker(this)" />
+        <label class="student-name" for="s5">Muhammad Izzat</label>
+        <span class="badge not-submitted" id="badge-s5">❌ Not Submitted</span>
+      </div>
+
+    </div>
+  </main>
+
+  <script>
+    function updateTracker(checkbox) {
+      // Update badge for this specific student
+      const badge = document.getElementById('badge-' + checkbox.id);
+      if (checkbox.checked) {
+        badge.textContent = '✅ Submitted';
+        badge.className = 'badge submitted';
+      } else {
+        badge.textContent = '❌ Not Submitted';
+        badge.className = 'badge not-submitted';
+      }
+
+      // Recount all checkboxes
+      const all = document.querySelectorAll('#checklist input[type="checkbox"]');
+      const submittedCount = Array.from(all).filter(cb => cb.checked).length;
+      document.getElementById('submitted').textContent = submittedCount;
+      document.getElementById('notSubmitted').textContent = all.length - submittedCount;
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My TVET Dashboard</title>
+  <style>
+    /* ── CSS Variables ───────────────────────────────────────── */
+    :root {
+      --accent: #3b82d4;
+      --accent-light: #eff6ff;
+      --card-bg: #ffffff;
+      --page-bg: #f3f4f6;
+      --border: #e5e7eb;
+      --text: #1f2328;
+      --muted: #57606a;
+      --radius: 10px;
+      --shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, 'Segoe UI', system-ui, sans-serif;
+      font-size: 15px;
+      line-height: 1.6;
+      color: var(--text);
+      background-color: var(--page-bg);
+      min-height: 100vh;
+      padding: 2rem 1rem 4rem;
+    }
+
+    /* ── Header ──────────────────────────────────────────────── */
+    .dashboard-header {
+      max-width: 900px;
+      margin: 0 auto 2rem;
+    }
+
+    .dashboard-title {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin: 0 0 0.25rem;
+      color: var(--text);
+    }
+
+    .dashboard-subtitle {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    /* ── Cards Row ───────────────────────────────────────────── */
+    .cards-row {
+      max-width: 900px;
+      margin: 0 auto 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .card {
+      flex: 1 1 220px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 1.25rem 1.5rem;
+    }
+
+    .card-icon {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .card-title {
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--muted);
+      margin: 0 0 0.5rem;
+    }
+
+    .card-main-stat {
+      font-size: 2.25rem;
+      font-weight: 700;
+      line-height: 1.2;
+      color: var(--text);
+      margin-bottom: 0.75rem;
+    }
+
+    .card-stat-total {
+      font-size: 1.1rem;
+      font-weight: 400;
+      color: var(--muted);
+    }
+
+    /* ── Progress Bars ───────────────────────────────────────── */
+    .progress-bar-track {
+      height: 7px;
+      background-color: var(--border);
+      border-radius: 99px;
+      overflow: hidden;
+      margin-bottom: 0.5rem;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background-color: var(--accent);
+      border-radius: 99px;
+      transition: width 0.4s ease;
+    }
+
+    .card-meta {
+      margin: 0.15rem 0 0;
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+
+    .card-meta.waitlist {
+      margin-top: 0.35rem;
+      color: #92400e;
+      background: #fef3c7;
+      display: inline-block;
+      padding: 0.1rem 0.5rem;
+      border-radius: 99px;
+      font-size: 0.78rem;
+    }
+
+    /* ── Workshop Status Card ────────────────────────────────── */
+    .status-badge {
+      display: inline-block;
+      color: #ffffff;
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 0.25rem 0.75rem;
+      border-radius: 99px;
+      margin-bottom: 1rem;
+    }
+
+    .workshop-detail {
+      display: flex;
+      flex-direction: column;
+      font-size: 0.85rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .workshop-detail-label {
+      font-weight: 600;
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-bottom: 0.1rem;
+    }
+
+    /* ── Checklist Section ───────────────────────────────────── */
+    .checklist-section {
+      max-width: 900px;
+      margin: 0 auto;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 1.5rem;
+    }
+
+    .checklist-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .checklist-title {
+      font-size: 1rem;
+      font-weight: 700;
+      margin: 0;
+      color: var(--text);
+    }
+
+    .checklist-summary {
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+
+    .checklist-progress-track {
+      height: 7px;
+      background-color: var(--border);
+      border-radius: 99px;
+      overflow: hidden;
+      margin-bottom: 1.25rem;
+    }
+
+    .checklist-progress-fill {
+      height: 100%;
+      background-color: var(--accent);
+      border-radius: 99px;
+      transition: width 0.4s ease;
+    }
+
+    .checklist-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .checklist-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.6rem 0.75rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.15s;
+      border: 1px solid transparent;
+    }
+
+    .checklist-item:hover {
+      background-color: var(--accent-light);
+      border-color: var(--border);
+    }
+
+    .checklist-item.done {
+      opacity: 0.55;
+    }
+
+    .checklist-item.done .checklist-label {
+      text-decoration: line-through;
+      color: var(--muted);
+    }
+
+    .checklist-checkbox {
+      width: 1rem;
+      height: 1rem;
+      accent-color: var(--accent);
+      flex-shrink: 0;
+      cursor: pointer;
+    }
+
+    .checklist-label {
+      font-size: 0.9rem;
+      color: var(--text);
+    }
+
+    /* ── Responsive ──────────────────────────────────────────── */
+    @media (max-width: 600px) {
+      body { padding: 1.25rem 0.75rem 3rem; }
+      .dashboard-title { font-size: 1.35rem; }
+      .card-main-stat { font-size: 1.75rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="dashboard-header">
+    <h1 class="dashboard-title">My TVET Dashboard</h1>
+    <p class="dashboard-subtitle">Workshop Management Overview</p>
+  </header>
+
+  <!-- Cards Row -->
+  <div class="cards-row">
+
+    <!-- Card 1: Students Registered -->
+    <div class="card">
+      <div class="card-icon">🎓</div>
+      <h2 class="card-title">Students Registered</h2>
+      <div class="card-main-stat">
+        34 <span class="card-stat-total">/ 40</span>
+      </div>
+      <div class="progress-bar-track">
+        <div class="progress-bar-fill" style="width: 85%"></div>
+      </div>
+      <p class="card-meta">85% seats filled</p>
+      <p class="card-meta waitlist">⏳ 3 on waitlist</p>
+    </div>
+
+    <!-- Card 2: Tasks Remaining -->
+    <div class="card">
+      <div class="card-icon">📋</div>
+      <h2 class="card-title">Tasks Remaining</h2>
+      <div class="card-main-stat">
+        5 <span class="card-stat-total">/ 12</span>
+      </div>
+      <div class="progress-bar-track">
+        <div class="progress-bar-fill" id="tasks-bar" style="width: 58%"></div>
+      </div>
+      <p class="card-meta" id="tasks-meta">7 of 12 tasks done</p>
+    </div>
+
+    <!-- Card 3: Workshop Status -->
+    <div class="card">
+      <div class="card-icon">🏫</div>
+      <h2 class="card-title">Workshop Status</h2>
+      <div class="status-badge" style="background-color: #f59e0b;">
+        Preparation in Progress
+      </div>
+      <div class="workshop-detail">
+        <span class="workshop-detail-label">📅 Date</span>
+        <span>15 August 2025</span>
+      </div>
+      <div class="workshop-detail">
+        <span class="workshop-detail-label">📍 Venue</span>
+        <span>Room B204, TVET Campus</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Checklist Section -->
+  <div class="checklist-section">
+    <div class="checklist-header">
+      <h2 class="checklist-title">Preparation Checklist</h2>
+      <span class="checklist-summary" id="checklist-summary">3 of 8 completed</span>
+    </div>
+    <div class="checklist-progress-track">
+      <div class="checklist-progress-fill" id="checklist-bar" style="width: 37.5%"></div>
+    </div>
+    <ul class="checklist-list" id="checklist-list">
+      <!-- Items injected by JS -->
+    </ul>
+  </div>
+
+  <script>
+    // ── Checklist data ───────────────────────────────────────────
+    const items = [
+      { id: 1, label: 'Confirm room booking',               done: true  },
+      { id: 2, label: 'Send reminder emails to students',   done: true  },
+      { id: 3, label: 'Print attendance sheets',            done: true  },
+      { id: 4, label: 'Test AV equipment',                  done: false },
+      { id: 5, label: 'Prepare slide decks',                done: false },
+      { id: 6, label: 'Brief facilitators and TAs',         done: false },
+      { id: 7, label: 'Set up lab environments',            done: false },
+      { id: 8, label: 'Prepare name tags',                  done: false }
+    ]
+
+    function render() {
+      const list    = document.getElementById('checklist-list')
+      const summary = document.getElementById('checklist-summary')
+      const bar     = document.getElementById('checklist-bar')
+
+      const completed = items.filter(i => i.done).length
+      const percent   = Math.round((completed / items.length) * 100)
+
+      summary.textContent = `${completed} of ${items.length} completed`
+      bar.style.width = percent + '%'
+
+      list.innerHTML = items.map(item => `
+        <li class="checklist-item${item.done ? ' done' : ''}"
+            onclick="toggle(${item.id})">
+          <input
+            type="checkbox"
+            class="checklist-checkbox"
+            ${item.done ? 'checked' : ''}
+            onclick="event.stopPropagation(); toggle(${item.id})"
+          />
+          <span class="checklist-label">${item.label}</span>
+        </li>
+      `).join('')
+    }
+
+    function toggle(id) {
+      const item = items.find(i => i.id === id)
+      if (item) {
+        item.done = !item.done
+        render()
+      }
+    }
+
+    // Initial render
+    render()
+  </script>
+
+</body>
+</html>
